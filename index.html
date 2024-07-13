@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.2" />
+    <link rel="stylesheet" href="src/style/style.css">
+    <title>CS343 - Art Portfolio</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="src/main.jsx" type="module"></script>
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+  
+    <div class="inputBox">
+      <h3>Request a commission</h3><br>
+      <form id="emailForm" action="#">
+          <input type="text" name="emailInput" id="email" placeholder="Enter Email address" onkeydown="validate()"><span id="validateText"></span>
+          <br><br>
+          <input type="text" name="commissionInput" id="commission" placeholder="Enter commission summary">
+          <br><br>
+          <button type="submit" id="submitBtn" onclick="saveFile()">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      let saveFile = () => {
+
+      // Get the data from each element on the form.
+      const email = document.getElementById('email')
+      const summary = document.getElementById('commission')
+
+    let data = 
+        'Email: ' + email.value + ' \r\n ' + 
+        'Commission: ' + summary.value
+
+    const textToBLOB = new Blob([data], { type: 'text/plain' })
+    const sFileName = 'commissionForm.txt';	  
+
+    let newLink = document.createElement("a")
+    newLink.download = sFileName
+
+    if (window.webkitURL != null) {
+      newLink.href = window.webkitURL.createObjectURL(textToBLOB)
+    }
+    else {
+      newLink.href = window.URL.createObjectURL(textToBLOB)
+      newLink.style.display = "none"
+      document.body.appendChild(newLink)
+    }
+
+      newLink.click()
+    }
+    </script>
+
+    <script type="text/javascript">
+      function validate() {
+        let form = document.getElementById("emailForm")
+        let email = document.getElementById("email").value
+        let text = document.getElementById("validateText")
+
+        let pattern = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
+
+        if (email.match(pattern)) {
+          form.classList.add("valid")
+          form.classList.remove("invalid")
+          text.innerHTML = "valid ✓"
+          text.style.color = "#000000"
+        } else {
+          form.classList.add("invalid")
+          form.classList.remove("valid")
+          text.innerHTML = "invalid ✘"
+          text.style.color = "#000000"
+        }
+      }
+    </script>
+
+    <script>  
+      let mybutton = document.getElementById("myBtn");
+
+      //window.onscroll = function() {scrollFunction()};
+      // function scrollFunction() {
+      //   if (document.body.scrollTop > 7350 || document.documentElement.scrollTop > 7350) { 
+      //     mybutton.style.display = "block";
+      //   } else {
+      //     mybutton.style.display = "none";
+      //   }
+      // }
+
+      function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      }
+    </script>
+  </body>
+</html>
